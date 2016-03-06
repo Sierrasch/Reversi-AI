@@ -100,7 +100,11 @@ class ReversiBoard{
 	System.out.println(breakLine);
 	
 	for(int j = 0; j < boardSize; j++){
-	    line = " " + (j+1) + " |";
+	    line = " " + (j+1);
+	    if(j + 1 < 10)
+		line += " |";
+	    else
+		line += "|";
 	    for(int i = 0; i < boardSize; i++){
 		line += " " + board[i][j] + " |";
 	    }
