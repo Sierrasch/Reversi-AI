@@ -1,19 +1,45 @@
 class Reversi{
     public static void main(String[] args){
-	ReversiBoard board = new ReversiBoard(8);
-	board.printBoard();
-	board.playMove('D',4,5);
-	board.printBoard();
-	board.playMove('L',3,5);
-	board.printBoard();
-	board.playMove('D',1,5);
-	board.printBoard();
-	board.playMove('D',2,4);
-	board.printBoard();
-	board.playMove('L',1,5);
-	board.printBoard();
+	int boardSize = 8;
+	char humanColor = 'D';
 	
-	printValidMoves(board);
+	for(int i = 0; i < args.length; i++){
+	    if(args[i].equals("-l")){
+		humanColor = 'L';
+	    }
+	    if(args[i].equals("-n")){
+		try{
+		    boardSize = Integer.parseInt(args[i+1]);
+		}catch(Exception ex){
+		    ex.printStackTrace();
+		}
+		if(boardSize > 26 || boardSize < 4)
+		    boardSize = 8;
+		i++;
+		
+	    }
+	}
+
+	playGame(boardSize, humanColor);
+    }
+
+    public static void playGame(int boardSize, char humanColor){
+	char human = humanColor;
+	char computer = (char)(144 - (int)humanColor);
+
+	/*	ReversiBoard board = new ReversiBoard(8);
+	board.printBoard();	
+	ReversiPlayer.playMove(board, 'D');
+	ReversiPlayer.playMove(board, 'L');
+	ReversiPlayer.playMove(board, 'D');
+	ReversiPlayer.playMove(board, 'L');
+	*/
+    }
+
+    public static void playTurn(ReversiBoard board, char playerColor, int iLoc, int jLoc){
+	board.playMove(playerColor, iLoc, jLoc);
+	board.printBoard();
+	board.printScore();
     }
 
     public static void printValidMoves(ReversiBoard board){
@@ -26,4 +52,6 @@ class Reversi{
 	    }
 	}
     }
+
+    
 }

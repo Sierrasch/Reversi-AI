@@ -21,6 +21,19 @@ class ReversiBoard{
 	}//end loop
     }
 
+    void printScore(){
+	int lightCount = 0;
+	int darkCount = 0;
+	for(int i = 0; i < boardSize; i++){
+	    for(int j = 0; j < boardSize; j++){
+		if(board[i][j] == 'L')
+		    lightCount++;
+		if(board[i][j] == 'D')
+		    darkCount++;
+	    }
+	}
+	System.out.println("Score: Light " + lightCount + " - Dark " + darkCount);
+    }
     boolean playMove(char playerColor, int i, int j){
 	if(isValid(playerColor, i, j) == false){
 	    System.out.println("Invalid Move");
