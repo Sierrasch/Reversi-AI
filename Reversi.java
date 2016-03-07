@@ -16,7 +16,6 @@ class Reversi{
 		if(boardSize > 26 || boardSize < 4)
 		    boardSize = 8;
 		i++;
-		
 	    }
 	}
 
@@ -72,7 +71,7 @@ class Reversi{
 	if(winner != 'T'){
 	    String winnerNature = (winner == human ? "human" : "computer");
 	    String winnerColor = (winner == 'L' ? "Light" : "Dark");
-	    System.out.println(winnerColor + " player (" + winnerNature + ")wins!");
+	    System.out.println(winnerColor + " player (" + winnerNature + ") wins!");
 	}else{
 	    System.out.println("The game is a tie");
 	}

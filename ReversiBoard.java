@@ -22,17 +22,7 @@ class ReversiBoard{
     }
 
     void printScore(){
-	int lightCount = 0;
-	int darkCount = 0;
-	for(int i = 0; i < boardSize; i++){
-	    for(int j = 0; j < boardSize; j++){
-		if(board[i][j] == 'L')
-		    lightCount++;
-		if(board[i][j] == 'D')
-		    darkCount++;
-	    }
-	}
-	System.out.println("Score: Light " + lightCount + " - Dark " + darkCount);
+	System.out.println("Score: Light " + getScore('L') + " - Dark " + getScore('D'));
     }
     boolean playMove(char playerColor, int i, int j){
 	if(isValid(playerColor, i, j) == false){
@@ -155,19 +145,9 @@ class ReversiBoard{
     }
 
     char getWinner(){
-	int lightCount = 0;
-	int darkCount = 0;
-	for(int i = 0; i < boardSize; i++){
-	    for(int j = 0; j < boardSize; j++){
-		if(board[i][j] == 'L')
-		    lightCount ++;
-		if(board[i][j] == 'D')
-		    darkCount ++;
-	    }
-	}
-	if(lightCount > darkCount)
+       	if(getScore('L') > getScore('D'))
 	    return 'L';
-	if(darkCount > lightCount)
+	if(getScore('D') > getScore('L'))
 	    return 'D';
 	else
 	    return 'T';
@@ -181,6 +161,17 @@ class ReversiBoard{
 	    }
 	}
 	return false;
+    }
+    
+    int getScore(char playerColor){
+	int result = 0;
+	for(int i = 0; i < boardSize; i++){
+	    for(int j = 0; j < boardSize; j++){
+		if(board[i][j] == playerColor)
+		    result++;
+	    }
+	}
+	return result;
     }
 }
 
