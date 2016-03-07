@@ -26,22 +26,102 @@ class Reversi{
     public static void playGame(int boardSize, char humanColor){
 	char human = humanColor;
 	char computer = (char)(144 - (int)humanColor);
+	char currentPlayer = (human <  computer ? human : computer);
+	String humanString = (human == 'D' ? "Dark" : "Light");
+	String computerString = (computer == 'D' ? "Dark" : "Light");
 
-	/*	ReversiBoard board = new ReversiBoard(8);
-	board.printBoard();	
-	ReversiPlayer.playMove(board, 'D');
-	ReversiPlayer.playMove(board, 'L');
-	ReversiPlayer.playMove(board, 'D');
-	ReversiPlayer.playMove(board, 'L');
-	*/
+	ReversiBoard board = new ReversiBoard(boardSize);
+	board.printBoard();
+	System.out.println("Move played: --");
+	while(board.isFull() == false && board.isOneColor() == false && 
+	      (board.hasMove(human) || board.hasMove(computer))){
+	    if(currentPlayer == human){
+		if(board.hasMove(human) == false){
+		    System.out.println(humanString + " player has no moves");
+		}else{
+		    System.out.println(humanString + " (human) plays now");
+		    board.printScore();
+		    String input = "";
+		    do{
+			input = System.console().readLine(">");	
+		    }while(validateAndPlay(input, board, human) == false);
+		    board.printBoard();
+		    System.out.println("Move played: " + input);
+		}
+	    }
+	    else if(currentPlayer == computer){
+		if(board.hasMove(computer) == false){
+		    System.out.println(computerString + " player has no moves");
+		}else{
+		    System.out.println(computerString + " (COM) plays now");
+		    board.printScore();
+		    System.out.println(computerString + " player (COM) is calculating its next move... (this may take up to 30 seconds");
+		
+		    String move = ReversiPlayer.playMove(board, computer);
+		    board.printBoard();
+		    System.out.println("Move played: " + move);
+		}
+	    }
+	    currentPlayer = (char)(144 - (int)currentPlayer); //switch player
+	}
+	
+	System.out.println("Game over");
+	System.out.println("");
+
+	char winner = board.getWinner();
+	if(winner != 'T'){
+	    String winnerNature = (winner == human ? "human" : "computer");
+	    String winnerColor = (winner == 'L' ? "Light" : "Dark");
+	    System.out.println(winnerColor + " player (" + winnerNature + ")wins!");
+	}else{
+	    System.out.println("The game is a tie");
+	}
+	
     }
+    
+    public static boolean validateAndPlay(String input, ReversiBoard board, char playerColor){
+	boolean isValid = true;
+	int iLoc = -1;
+	int jLoc = -1;
+	
+	//validate input and set iLoc and jLoc
+	try{
+	    if((int)input.charAt(0) < 97 || (int)input.charAt(0) > 96 + board.boardSize)
+		isValid = false;
+	    else
+		iLoc = (int)input.charAt(0) - 97;
 
+	    jLoc = Integer.parseInt(input.substring(1)) - 1;
+	    if(jLoc < 0 || jLoc >= board.boardSize)
+		isValid = false;
+	}catch(Exception ex){
+	    isValid = false;
+	}
+	
+	if(board.isValid(playerColor, iLoc, jLoc) == false){
+	    isValid = false;
+	}
+	if(isValid == false){
+	    System.out.println("Error: invalid move, please try again");
+	    return false;
+	}
+	
+
+	//play move if valid
+	board.playMove(playerColor, iLoc, jLoc);
+	return true;
+	
+    }
+     
+
+    //mostly testing function
     public static void playTurn(ReversiBoard board, char playerColor, int iLoc, int jLoc){
 	board.playMove(playerColor, iLoc, jLoc);
 	board.printBoard();
 	board.printScore();
     }
 
+    //mostly testing function
     public static void printValidMoves(ReversiBoard board){
 	for(int i = 0; i < board.boardSize; i++){
 	    for(int j = 0; j < board.boardSize; j++){

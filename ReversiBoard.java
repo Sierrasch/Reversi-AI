@@ -61,6 +61,8 @@ class ReversiBoard{
 
     boolean isValid(char playerColor, int i, int j){
 	//check every direction for a valid reason to accept move
+	if(board[i][j] != ' ')
+	    return false;
 	for(int x = -1; x <= 1; x++){
 	    for(int y = -1; y <= 1; y++){
 		if(y!= 0 || x!= 0 ){
@@ -86,7 +88,7 @@ class ReversiBoard{
 	    //adjust currentI and currentJ to check first square after opposite color
 	    currentI += iMod;
 	    currentJ += jMod;
-	    while(currentI > 0 && currentI < boardSize && currentJ > 0 && currentJ < boardSize){
+	    while(currentI > -1 && currentI < boardSize && currentJ > -1 && currentJ < boardSize){
 		if(board[currentI][currentJ] == playerColor)
 		    return true;
 		if(board[currentI][currentJ] == ' ')
@@ -125,6 +127,60 @@ class ReversiBoard{
 	    System.out.println(breakLine);
 	}
 	
+    }
+
+    boolean isFull(){
+	for(int i = 0; i < boardSize; i++){
+	    for(int j = 0; j < boardSize; j++){
+		if(board[i][j] == ' '){
+		    return false;
+		}
+	    }
+	}
+	return true;
+    }
+
+    boolean isOneColor(){
+	char color = ' ';
+	for(int i = 0; i < boardSize; i++){
+	    for(int j = 0; j < boardSize; j++){
+		if(board[i][j] != ' ' && color != ' ' && board[i][j] != color){
+		    return false;
+		}
+		if(color == ' ')
+		    color = board[i][j];
+	    }
+	}
+	return true;
+    }
+
+    char getWinner(){
+	int lightCount = 0;
+	int darkCount = 0;
+	for(int i = 0; i < boardSize; i++){
+	    for(int j = 0; j < boardSize; j++){
+		if(board[i][j] == 'L')
+		    lightCount ++;
+		if(board[i][j] == 'D')
+		    darkCount ++;
+	    }
+	}
+	if(lightCount > darkCount)
+	    return 'L';
+	if(darkCount > lightCount)
+	    return 'D';
+	else
+	    return 'T';
+    }
+    
+    boolean hasMove(char playerColor){
+	for(int i = 0; i < boardSize; i++){
+	    for(int j = 0; j < boardSize; j++){
+		if(isValid(playerColor, i, j))
+		    return true;
+	    }
+	}
+	return false;
     }
 }
 
