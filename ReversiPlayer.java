@@ -13,4 +13,88 @@ class ReversiPlayer{
 	}
 	return "cannot play a move";
     }
-}
+
+    public static String playMoveReal(ReversiBoard board, char playerColor){
+	if(board.hasMove(playerColor) == false)
+	   return "no move to play";
+
+	int[] result = minimax(board, playerColor, 2, true);
+	
+	int iVal = result[1];
+	int jVal = result[2];
+	board.playMove(playerColor, iVal, jVal);
+	
+	String playedMove = "";
+	playedMove += (char)(iVal + 97);
+	playedMove += (jVal + 1);
+	return playedMove;
+	
+
+    }
+
+    /*MAKE SURE THAT THE PLAYER COLOR IS CORRECT FOR WHEN MAXING OR MINNING
+      THIS COULD BREAK EVERYTHING AND YOU MAY NOT EVEN NOTICE FOR A WHILE
+      ALSO MAKE SURE YOURE NOT EDITING ACTUAL BOARD */
+    public static int[] minimax(ReversiBoard board, char playerColor, int depth, boolean maximizingPlayer){
+	if(depth == 0 || board.hasMove(playerColor) == false || board.isFull() == true){
+	    int[] result = new int[3];
+	    result[0] = (board.getScore(playerColor) - board.getScore((char)(144 - (int)playerColor)));
+	    result[1] = -1;
+	    result[2] = -1;
+	    return result;
+	}
+
+	if(maximizingPlayer == true){
+	    int bestVal = -99999;
+	    int iVal = -1;
+	    int jVal = -1;
+	    for(int i = 0; i < board.boardSize; i++){
+		for(int j = 0; j < board.boardSize; j++){
+		    if(board.isValid(playerColor, i, j)){
+			ReversiBoard tempBoard = board;
+			tempBoard.playMove(playerColor, i, j);
+			
+			int result[] = minimax(tempBoard, playerColor, depth - 1, false);
+			if(result[0] > bestVal){
+			    bestVal = result[0];
+			    iVal = i;
+			    jVal = j;
+			}
+		    }
+		   
+		}
+	    }
+	    int returnArr[] = new int[3];
+	    returnArr[0] = bestVal;
+	    returnArr[1] = iVal;
+	    returnArr[2] = jVal;
+	    return returnArr;
+	}else{ /*minimizing player*/
+	    int bestVal = 99999;
+	    int iVal = -1;
+	    int jVal = -1;
+	    for(int i = 0; i < board.boardSize; i++){
+		for(int j = 0; j < board.boardSize; j++){
+		    if(board.isValid(playerColor, i, j)){
+			ReversiBoard tempBoard = board;
+			tempBoard.playMove((char)(144-(int)playerColor), i, j);
+			
+			int result[] = minimax(tempBoard, (char)(144-(int)playerColor), depth - 1, true);
+			if(result[0] < bestVal){
+			    bestVal = result[0];
+			    iVal = i;
+			    jVal = j;
+			}
+			
+		    }
+	
+		}
+	    }
+	    int returnArr[] = new int[3];
+	    returnArr[0] = bestVal;
+	    returnArr[1] = iVal;
+	    returnArr[2] = jVal;
+	    return returnArr;
+	}
+    }
+} 
