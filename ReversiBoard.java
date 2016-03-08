@@ -21,18 +21,29 @@ class ReversiBoard{
 	}//end loop
     }
 
+    ReversiBoard(ReversiBoard oldBoard){
+	boardSize = oldBoard.boardSize;
+	board = new char[oldBoard.boardSize][oldBoard.boardSize];
+	for(int i = 0; i < oldBoard.boardSize; i++){
+	    for(int j = 0; j < oldBoard.boardSize; j++){
+		board[i][j] = oldBoard.board[i][j];
+	    }
+	}
+    }
+
     void printScore(){
 	System.out.println("Score: Light " + getScore('L') + " - Dark " + getScore('D'));
     }
     boolean playMove(char playerColor, int i, int j){
 	if(isValid(playerColor, i, j) == false){
-	    System.out.println("Invalid Move");
+	    //	    System.out.println("Invalid Move");
 	    return false;
 	}
 
 	board[i][j] = playerColor;
 	for(int x = -1; x <= 1; x++){//in each direction
 	    for(int y = -1; y <= 1; y++){
+
 		if(y!= 0 || x!= 0 ){
 		    if(checkDirection(playerColor, i, j, x, y)){
 			int tempI = i + x;

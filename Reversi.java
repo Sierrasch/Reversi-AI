@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 class Reversi{
     public static void main(String[] args){
 	int boardSize = 8;
@@ -42,7 +44,10 @@ class Reversi{
 		    board.printScore();
 		    String input = "";
 		    do{
-			input = System.console().readLine(">");	
+			System.out.print("> ");
+			Scanner sc = new Scanner(System.in);
+			input = sc.nextLine();
+			//input = System.console().readLine(">");	
 		    }while(validateAndPlay(input, board, human) == false);
 		    board.printBoard();
 		    System.out.println("Move played: " + input);
@@ -72,6 +77,7 @@ class Reversi{
 	    String winnerNature = (winner == human ? "human" : "computer");
 	    String winnerColor = (winner == 'L' ? "Light" : "Dark");
 	    System.out.println(winnerColor + " player (" + winnerNature + ") wins!");
+	    System.out.println("Score: " + board.getScore(winner) + " to " +  board.getScore((char)(144-(int)winner)));
 	}else{
 	    System.out.println("The game is a tie");
 	}
@@ -93,13 +99,14 @@ class Reversi{
 	    jLoc = Integer.parseInt(input.substring(1)) - 1;
 	    if(jLoc < 0 || jLoc >= board.boardSize)
 		isValid = false;
+	
+	    if(board.isValid(playerColor, iLoc, jLoc) == false){
+		isValid = false;
+	    }
 	}catch(Exception ex){
 	    isValid = false;
 	}
-	
-	if(board.isValid(playerColor, iLoc, jLoc) == false){
-	    isValid = false;
-	}
+
 	if(isValid == false){
 	    System.out.println("Error: invalid move, please try again");
 	    return false;
