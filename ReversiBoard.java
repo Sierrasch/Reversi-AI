@@ -184,6 +184,11 @@ class ReversiBoard{
 	}
 	return result;
     }
+
+    int calculateScore(char playerColor){
+	double result = getScore(playerColor) - getScore((char)(144 - (int) playerColor));
+	return (int)result;
+    }
 }
 
     

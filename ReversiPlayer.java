@@ -49,9 +49,7 @@ class ReversiPlayer{
 		return result;
 	    }
 	    
-	    result[0] = (board.getScore(myColor) - board.getScore((char)(144 - (int)myColor)));
-	    //System.out.print("BOTTOM ");
-	    //System.out.println(result[0]);
+	    result[0] = board.calculateScore(myColor);
 	    result[1] = -1;
 	    result[2] = -1;
 	    return result;
@@ -69,8 +67,7 @@ class ReversiPlayer{
 			hasMoves = true;
 			ReversiBoard tempBoard = new ReversiBoard(board);
 			tempBoard.playMove(playerColor, i, j);
-                        //System.out.println("Recursing with board:");
-                        //tempBoard.printBoard();
+                       
 			
 			int result[] = minimax(tempBoard,  (char)(144-(int)playerColor), depth - 1, false, myColor);
 			if(result[0] > bestVal){
@@ -83,13 +80,12 @@ class ReversiPlayer{
 		}
 	    }
 	    if(hasMoves == false){
-		//	System.out.println("FUCK MAX NODE");
+		
 		return minimax(board, (char)(144 - (int)playerColor), depth - 1, false, myColor);
 	    }
 	    int returnArr[] = new int[3];
 	    returnArr[0] = bestVal;
-	    //System.out.print("MAX NODE ");
-	    //System.out.println(bestVal);
+	    
 	    returnArr[1] = iVal;
 	    returnArr[2] = jVal;
 	    return returnArr;
@@ -118,13 +114,10 @@ class ReversiPlayer{
 		}
 	    }
 	    if(hasMoves == false){
-		//	System.out.println("FUCK MIN NODE");
 		return minimax(board, (char)(144 - (int)playerColor), depth - 1, true, myColor);
 	    }
 	    int returnArr[] = new int[3];
 	    returnArr[0] = bestVal;
-	    //System.out.print("MIN NODE ");
-	    //System.out.println(bestVal);
 	    returnArr[1] = iVal;
 	    returnArr[2] = jVal;
 	    return returnArr;
