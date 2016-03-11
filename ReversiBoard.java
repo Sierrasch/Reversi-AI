@@ -31,6 +31,16 @@ class ReversiBoard{
 	}
     }
 
+    double getFillFactor(){
+	int filledSlots = 0;
+	for(int i = 0; i < boardSize; i ++){
+	    for(int j = 0; j < boardSize; j++){
+		if(board[i][j] != ' ')
+		    filledSlots ++;
+	    }
+	}
+	return (double)filledSlots/(double)(boardSize * boardSize);
+    }
     int getSpotsLeft(){
 	int emptySpots = 0;
 	for(int i = 0; i < boardSize; i ++){
@@ -197,6 +207,69 @@ class ReversiBoard{
 
     int calculateScore(char playerColor){
 	double result = getScore(playerColor) - getScore((char)(144 - (int) playerColor));
+
+	if(board[0][0] == playerColor){
+	    result += 3;
+	    for(int i = 1; i < boardSize - 1; i++){
+		if(board[0][i] == playerColor)
+		    result += 1;
+		else
+		    i = boardSize + 1;
+	    }
+	    for(int i = 1; i < boardSize - 1; i++){
+		if(board[i][0] == playerColor)
+		    result += 1;
+		else
+		    i = boardSize + 1;
+	    }
+	    
+	}
+	if(board[0][boardSize - 1] == playerColor){
+	    result += 3;
+	    for(int i = boardSize - 2; i > 0; i--){
+		if(board[0][i] == playerColor)
+		    result += 1;
+		else
+		    i = -1;
+	    }
+	    for(int i = 1; i < boardSize - 1; i++){
+		if(board[i][boardSize - 1] == playerColor)
+		    result += 1;
+		else
+		    i = boardSize + 1;
+	    }
+	}
+	if(board[boardSize - 1][0] == playerColor){
+	    result += 3;
+	    for(int i = 1; i < boardSize - 1; i++){
+		if(board[boardSize - 1][i] == playerColor)
+		    result += 1;
+		else
+		    i = boardSize + 1;
+	    }
+	    for(int i = boardSize - 2; i > 0; i--){
+		if(board[i][0] == playerColor)
+		    result += 1;
+		else
+		    i = -1;
+	    }
+	}
+	if(board[boardSize - 1][boardSize - 1] == playerColor){
+	    result += 3;
+	    for(int i = boardSize - 2; i > 0; i--){
+		if(board[boardSize - 1][i] == playerColor)
+		    result += 1;
+		else
+		    i = -1;
+	    }
+	    for(int i = boardSize - 2; i > 0; i--){
+		if(board[i][boardSize - 1] == playerColor)
+		    result += 1;
+		else
+		    i = -1;
+	    }
+
+	}
 	return (int)result;
     }
 }
