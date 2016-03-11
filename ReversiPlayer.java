@@ -1,4 +1,4 @@
-class ReversiPlayer{
+/*class ReversiPlayer{
     public static String playMove(ReversiBoard board, char playerColor){
 	for(int i = 0; i < board.boardSize; i++){
 	    for(int j = 0; j < board.boardSize; j++){
@@ -32,9 +32,7 @@ class ReversiPlayer{
 
     }
 
-    /*MAKE SURE THAT THE PLAYER COLOR IS CORRECT FOR WHEN MAXING OR MINNING
-      THIS COULD BREAK EVERYTHING AND YOU MAY NOT EVEN NOTICE FOR A WHILE
-      ALSO MAKE SURE YOURE NOT EDITING ACTUAL BOARD */
+
     public static int[] minimax(ReversiBoard board, char playerColor, int depth, boolean maximizingPlayer, char myColor){
 	if(depth == 0 || (board.hasMove(playerColor) == false && board.hasMove((char)(144 - (int)playerColor)) == false) || board.isFull() == true){
 	    int[] result = new int[3];
@@ -89,7 +87,7 @@ class ReversiPlayer{
 	    returnArr[1] = iVal;
 	    returnArr[2] = jVal;
 	    return returnArr;
-	}else{ /*minimizing player*/
+	}else{ //minimizing player
 	    int bestVal = 9999999;
 	    int iVal = -1;
 	    int jVal = -1;
@@ -124,3 +122,4 @@ class ReversiPlayer{
 	}
     }
 } 
+*/

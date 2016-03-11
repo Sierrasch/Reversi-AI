@@ -61,7 +61,7 @@ class Reversi{
 		    board.printScore();
 		    System.out.println(computerString + " player (COM) is calculating its next move... (this may take up to 30 seconds");
 		
-		    String move = ReversiPlayer.playMoveReal(board, computer);
+		    String move = ReversiPlayer.playMove(board, computer);
 		    board.printBoard();
 		    System.out.println("Move played: " + move);
 		}

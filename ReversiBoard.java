@@ -31,6 +31,16 @@ class ReversiBoard{
 	}
     }
 
+    int getSpotsLeft(){
+	int emptySpots = 0;
+	for(int i = 0; i < boardSize; i ++){
+	    for(int j = 0; j < boardSize; j++){
+		if(board[i][j] == ' ')
+		    emptySpots++;
+	    }
+	}
+	return emptySpots;
+    }
     void printScore(){
 	System.out.println("Score: Light " + getScore('L') + " - Dark " + getScore('D'));
     }
