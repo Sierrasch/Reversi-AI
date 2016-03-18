@@ -1,3 +1,4 @@
+
 class ReversiBoard{
     int boardSize;
     char board[][];
@@ -97,35 +98,40 @@ class ReversiBoard{
     }
 
     boolean checkDirection(char playerColor, int i, int j, int iMod, int jMod){
-	    int currentI = i + iMod;
-	    int currentJ = j + jMod;
-	    //returns false if checking off edge of board
-	    if(currentI < 0 || currentI > boardSize - 1 || currentJ < 0 || currentJ > boardSize - 1)
-		return false;
-	    //returns false if first piece in that direction is not the opposite color
-	    if(board[currentI][currentJ] != (char)(144 - (int)(playerColor))) //ascii hacking to check if opposite color
-		return false;
+	int currentI = i + iMod;
+	int currentJ = j + jMod;
+	//returns false if checking off edge of board
+	if(currentI < 0 || currentI > boardSize - 1 || currentJ < 0 || currentJ > boardSize - 1)
+	    return false;
+	//returns false if first piece in that direction is not the opposite color
+	if(board[currentI][currentJ] != (char)(144 - (int)(playerColor))) //ascii hacking to check if opposite color
+	    return false;
 
-	    //adjust currentI and currentJ to check first square after opposite color
+	//adjust currentI and currentJ to check first square after opposite color
+	currentI += iMod;
+	currentJ += jMod;
+	while(currentI > -1 && currentI < boardSize && currentJ > -1 && currentJ < boardSize){
+	    if(board[currentI][currentJ] == playerColor)
+		return true;
+	    if(board[currentI][currentJ] == ' ')
+		return false;
 	    currentI += iMod;
 	    currentJ += jMod;
-	    while(currentI > -1 && currentI < boardSize && currentJ > -1 && currentJ < boardSize){
-		if(board[currentI][currentJ] == playerColor)
-		    return true;
-		if(board[currentI][currentJ] == ' ')
-		    return false;
-		currentI += iMod;
-		currentJ += jMod;
-	    }
-	    return false;
-	    
 	}
-	void printBoard(){
-	    String breakLine = "   +";
-	    for(int i = 0; i < boardSize; i++){
-		breakLine += "---+";
-	    }
-	    String line = "";
+	return false;
+	    
+    }
+    void printBoard(){
+
+	String ANSI_RESET = "\u001B[0m";
+	String ANSI_BLUE = "\u001B[34m";
+	String ANSI_RED = "\u001B[31m";
+
+	String breakLine = "   +";
+	for(int i = 0; i < boardSize; i++){
+	    breakLine += "---+";
+	}
+	String line = "";
 	
 	line += "    ";
 	for(int i = 0; i < boardSize; i++){
@@ -142,7 +148,14 @@ class ReversiBoard{
 	    else
 		line += "|";
 	    for(int i = 0; i < boardSize; i++){
-		line += " " + board[i][j] + " |";
+		char printChar = board[i][j];
+		if(printChar == 'L'){
+		    line += " " + ANSI_RED + "L" + ANSI_RESET + " |";
+		}else if(printChar == 'D'){
+		    line += " " + ANSI_BLUE + "D" + ANSI_RESET + " |";
+		}else{
+		    line += "   |";
+		}
 	    }
 	    System.out.println(line);
 	    System.out.println(breakLine);

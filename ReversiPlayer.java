@@ -3,13 +3,13 @@ class ReversiPlayer{
     public static String playMove(ReversiBoard board, char playerColor){
 	if(board.hasMove(playerColor) == false)
 	    return "no move to play";
-	System.out.println("Entering Minimax");
 	int[] result = new int[3];
-	if(board.getSpotsLeft() > 8 && board.getFillFactor() < .6){
+	/*if(board.getSpotsLeft() > 8 && board.getFillFactor() < .6){
 	    result = minimaxWithAB(board, playerColor, 5, true, playerColor, -10000, 10000);
 	}else{ //run a slightly different algorithm for endgame
-	    result = minimax(board, playerColor, 5, true, playerColor);
-	}
+	*/
+	result = minimax(board, playerColor, 5, true, playerColor);
+//	}
 	
 	int iVal = result[1];
 	int jVal = result[2];
